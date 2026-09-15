@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title></title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background: #080808;
+    }
+
+    .circle {
+      width: 130px;
+      height: 130px;
+
+      border-radius: 50%;
+      background: #ff0000;
+
+      border: none;
+      outline: none;
+      cursor: pointer;
+
+      box-shadow:
+        0 0 20px rgba(255, 0, 0, 0.7),
+        0 0 50px rgba(255, 0, 0, 0.35);
+
+      animation: pulse 1.8s infinite ease-in-out;
+
+      transition:
+        transform 0.08s ease,
+        box-shadow 0.08s ease;
+    }
+
+    /* Пульсация круга */
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow:
+          0 0 20px rgba(255, 0, 0, 0.7),
+          0 0 50px rgba(255, 0, 0, 0.35);
+      }
+
+      50% {
+        transform: scale(1.08);
+        box-shadow:
+          0 0 35px rgba(255, 0, 0, 0.9),
+          0 0 90px rgba(255, 0, 0, 0.5);
+      }
+    }
+
+    /* Эффект нажатия */
+    .circle:active {
+      transform: scale(0.82);
+      box-shadow:
+        0 0 10px rgba(255, 0, 0, 1),
+        0 0 25px rgba(255, 0, 0, 0.8);
+    }
+
+    /* Вспышка после нажатия */
+    .flash {
+      animation: flash 0.35s ease-out;
+    }
+
+    @keyframes flash {
+      0% {
+        filter: brightness(1);
+      }
+
+      30% {
+        filter: brightness(3);
+      }
+
+      100% {
+        filter: brightness(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- На круге абсолютно ничего нет -->
+  <button class="circle" id="circle"></button>
+
+  <audio id="sound">
+    <source src="sound.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const circle = document.getElementById("circle");
+    const sound = document.getElementById("sound");
+
+    circle.addEventListener("click", () => {
+
+      // Максимальная громкость
+      sound.volume = 1.0;
+
+      // Начать звук сначала
+      sound.currentTime = 0;
+
+      // Включить звук
+      sound.play();
+
+      // Эффект вспышки
+      circle.classList.remove("flash");
+
+      // Перезапуск CSS-анимации
+      void circle.offsetWidth;
+
+      circle.classList.add("flash");
+    });
+  </script>
+
+</body>
+</html>
